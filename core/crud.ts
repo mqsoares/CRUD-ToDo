@@ -39,9 +39,39 @@ function read(): Array<Todo> {
     return db.todos;
 }
 
+function update(id: UUID, partialTodo: Partial<Todo>) {
+    let updatedTodo;
+    const todos = read();
+    todos.forEach((currentTodo)=> {
+        const isToUpdate = currentTodo.id === id;
+        if(isToUpdate) {
+            updatedTodo = Object.assign(currentTodo, partialTodo);
+        }
+    })
+    fs.writeFileSync(DB_FILE_PATH, JSON.stringify({
+        todos,
+    }, null, 2));    
+    if(!updatedTodo) {
+        throw new Error('Please, provide another ID!');
+    }
+    return updatedTodo;
+}
 
+function updateContentById(id: UUID, content: string): Todo {
+    return update(id, {content})
+}
+
+function CLEAR_DB() {
+    fs.writeFileSync(DB_FILE_PATH, "")
+}
+
+// SIMULATION 
+
+CLEAR_DB()
 create('Primeiro teste!!!');
 create('Segundo teste, esse é o que vai ser apagado!!!');
-create('Terceiro teste!!!');
+const terceiroPost = create('Terceiro teste!!!');
+
+updateContentById(terceiroPost.id, "Atualizada pelo updateContentById")
 
 console.log(read())

@@ -61,6 +61,19 @@ function updateContentById(id: UUID, content: string): Todo {
     return update(id, {content})
 }
 
+function deleteById(id: UUID) {
+    const todos = read();
+    const todosWithoutOne = todos.filter((el) => {
+        if(el.id === id) {
+            return false;
+        }
+        return true;
+    })
+    fs.writeFileSync(DB_FILE_PATH, JSON.stringify({
+        todos: todosWithoutOne
+    }, null, 2))
+}
+
 function CLEAR_DB() {
     fs.writeFileSync(DB_FILE_PATH, "")
 }
@@ -69,9 +82,11 @@ function CLEAR_DB() {
 
 CLEAR_DB()
 create('Primeiro teste!!!');
-create('Segundo teste, esse é o que vai ser apagado!!!');
+const segundoPost = create('Segundo teste, esse é o que vai ser apagado!!!');
 const terceiroPost = create('Terceiro teste!!!');
 
 updateContentById(terceiroPost.id, "Atualizada pelo updateContentById")
+
+deleteById(segundoPost.id)
 
 console.log(read())

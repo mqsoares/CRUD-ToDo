@@ -25,7 +25,7 @@
 </div>
 
 ## :clipboard: Sobre o Projeto
-Este projeto foi desenvolvido estudando TypeScript, utilizei o NODEMON para gerar um servidor "live", o File System do Node.js para gerar um aquivo db.json para simular um banco de dados e o UUID para gerar os ids de cada post.
+Este projeto foi desenvolvido estudando TypeScript, utilizei o NODEMON para gerar um servidor "live", o File System do Node.js para gerar um aquivo db.json simulando um banco de dados e o UUID para gerar os ids de cada post.
 
 ## :computer: Tecnologias utilizadas
 - TypeScript

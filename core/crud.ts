@@ -3,7 +3,7 @@ import fs from "fs";
 const DB_FILE_PATH = "./core/db";
 import { v4 as uuid } from "uuid";
 
-console.log("[CRUD]");
+// console.log("[CRUD]");
 
 type UUID = string;
 
@@ -35,7 +35,7 @@ function create(content: UUID): Todo {
     return todo;
 }
 
-function read(): Array<Todo> {
+export function read(): Array<Todo> {
     const dbString = fs.readFileSync(DB_FILE_PATH, "utf-8");
     const db = JSON.parse(dbString || "{}");
     if (!db.todos) {
@@ -99,13 +99,13 @@ function CLEAR_DB() {
 
 // SIMULATION
 
-CLEAR_DB();
-create("Primeiro teste!!!");
-const segundoPost = create("Segundo teste, esse é o que vai ser apagado!!!");
-const terceiroPost = create("Terceiro teste!!!");
+// CLEAR_DB();
+// create("Primeiro teste!!!");
+// const segundoPost = create("Segundo teste, esse é o que vai ser apagado!!!");
+// const terceiroPost = create("Terceiro teste!!!");
 
-updateContentById(terceiroPost.id, "Atualizada pelo updateContentById");
+// updateContentById(terceiroPost.id, "Atualizada pelo updateContentById");
 
-deleteById(segundoPost.id);
+// deleteById(segundoPost.id);
 
-console.log(read());
+// console.log(read());

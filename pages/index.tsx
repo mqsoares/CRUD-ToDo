@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GlobalStyles } from "@ui/theme/GlobalStyles";
+import { todoController } from "@ui/controller/todo";
+
+interface HomeTodo {
+    id: string;
+    content: string;
+}
 
 function HomePage() {
     const bg = "/bg.jpg";
+    const [todos, setTodos] = React.useState<HomeTodo[]>([]);
+
+    React.useEffect(() => {
+        todoController.get().then((todos) => {
+            setTodos(todos);
+        });
+    }, []);
     return (
         <main>
             <GlobalStyles themeName="coolGrey" />
-
             <header
                 style={{
                     backgroundImage: `url('${bg}')`,
@@ -44,25 +56,24 @@ function HomePage() {
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td>d4f26</td>
-                            <td>
-                                Conteúdo de uma TODO Lorem ipsum dolor sit amet
-                                consectetur adipisicing elit. Eaque vero facilis
-                                obcaecati, autem aliquid eius! Consequatur eaque
-                                doloribus laudantium soluta optio odit,
-                                provident, ab voluptates doloremque voluptas
-                                recusandae aspernatur aperiam.
-                            </td>
-                            <td align="right">
-                                <button data-type="delete">Apagar</button>
-                            </td>
-                        </tr>
+                        {todos.map((toDo) => {
+                            return (
+                                <tr key={toDo.id}>
+                                    <td>
+                                        <input type="checkbox" />
+                                    </td>
+                                    <td>{toDo.id.substring(0, 5)}</td>
+                                    <td>{toDo.content}</td>
+                                    <td align="right">
+                                        <button data-type="delete">
+                                            Apagar
+                                        </button>
+                                    </td>
+                                </tr>
+                            );
+                        })}
 
-                        <tr>
+                        {/* <tr>
                             <td
                                 colSpan={4}
                                 align="center"
@@ -70,15 +81,15 @@ function HomePage() {
                             >
                                 Carregando...
                             </td>
-                        </tr>
+                        </tr> */}
 
-                        <tr>
+                        {/* <tr>
                             <td colSpan={4} align="center">
                                 Nenhum item encontrado
                             </td>
-                        </tr>
+                        </tr> */}
 
-                        <tr>
+                        {/* <tr>
                             <td
                                 colSpan={4}
                                 align="center"
@@ -97,7 +108,7 @@ function HomePage() {
                                     </span>
                                 </button>
                             </td>
-                        </tr>
+                        </tr> */}
                     </tbody>
                 </table>
             </section>

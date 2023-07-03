@@ -1,8 +1,13 @@
-async function get() {
-    return fetch("api/todos").then(async (resSever) => {
-        const todosString = await resSever.text();
-        const todosFromServer = JSON.parse(todosString).todos;
-        return todosFromServer;
+import { todoRepository } from "@ui/repository/todo";
+
+interface todoControllerGetParams {
+    page?: number;
+}
+
+async function get({ page }: todoControllerGetParams = {}) {
+    return todoRepository.get({
+        page: page || 1,
+        limit: 2,
     });
 }
 

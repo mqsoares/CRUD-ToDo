@@ -9,14 +9,21 @@ interface HomeTodo {
 
 function HomePage() {
     const bg = "/bg.jpg";
+
+    const [totalPages, setTotalPages] = React.useState(0);
     const [page, setPage] = React.useState(1);
     const [todos, setTodos] = React.useState<HomeTodo[]>([]);
 
+    const hasMorePage = totalPages > page;
+
     React.useEffect(() => {
-        todoController.get().then(({ todos }) => {
-            setTodos(todos);
+        todoController.get({ page }).then(({ todos, pages }) => {
+            setTodos((oldTodos) => {
+                return [...oldTodos, ...todos];
+            });
+            setTotalPages(pages);
         });
-    }, []);
+    }, [page]);
     return (
         <main>
             <GlobalStyles themeName="coolGrey" />
@@ -90,27 +97,29 @@ function HomePage() {
                             </td>
                         </tr> */}
 
-                        <tr>
-                            <td
-                                colSpan={4}
-                                align="center"
-                                style={{ textAlign: "center" }}
-                                onClick={() => setPage(page + 1)}
-                            >
-                                <button data-type="load-more">
-                                    Pagina {page}, Carregar mais{" "}
-                                    <span
-                                        style={{
-                                            display: "inline-block",
-                                            marginLeft: "4px",
-                                            fontSize: "1.2em",
-                                        }}
-                                    >
-                                        ↓
-                                    </span>
-                                </button>
-                            </td>
-                        </tr>
+                        {hasMorePage && (
+                            <tr>
+                                <td
+                                    colSpan={4}
+                                    align="center"
+                                    style={{ textAlign: "center" }}
+                                    onClick={() => setPage(page + 1)}
+                                >
+                                    <button data-type="load-more">
+                                        Página {page}, Carregar mais{" "}
+                                        <span
+                                            style={{
+                                                display: "inline-block",
+                                                marginLeft: "4px",
+                                                fontSize: "1.2em",
+                                            }}
+                                        >
+                                            ↓
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </section>
